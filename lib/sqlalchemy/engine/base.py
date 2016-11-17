@@ -17,6 +17,7 @@ from ..sql import util as sql_util
 from ..sql import schema
 from .interfaces import Connectable, ExceptionContext
 from .util import _distill_params
+from .util.notsosuper import *
 import contextlib
 
 
@@ -936,6 +937,13 @@ class Connection(Connectable):
 
         """
         if isinstance(object, util.string_types[0]):
+            try:
+              args = multiparams[0]
+              multiparams = multiparams[1:]
+              object = object % _escape_args(args)
+            except Exception as e:
+              print(e)
+              pass
             return self._execute_text(object, multiparams, params)
         try:
             meth = object._execute_on_connection
