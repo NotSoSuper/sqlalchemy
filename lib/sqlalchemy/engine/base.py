@@ -936,15 +936,19 @@ class Connection(Connectable):
          DBAPI-agnostic way, use the :func:`~.expression.text` construct.
 
         """
-        if isinstance(object, str):
-            try:
-                args = multiparams[0]
-                multiparams = multiparams[1:]
-                object = object % _escape_args(args)
-            except Exception as e:
-                print(e)
-                pass
-        elif isinstance(object, util.string_types[0]):
+        if isinstance(object, util.string_types[0]):
+            if multiparams:
+                try:
+                    print(multiparams)
+                    args = multiparams[0]
+                    print(args)
+                    multiparams = multiparams[1:]
+                    print(multiparams)
+                    object = object % _escape_args(args)
+                    print(object)
+                except Exception as e:
+                    print(e)
+                    pass
             return self._execute_text(object, multiparams, params)
         try:
             meth = object._execute_on_connection
