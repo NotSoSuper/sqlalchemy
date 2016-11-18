@@ -939,15 +939,9 @@ class Connection(Connectable):
         if isinstance(object, util.string_types[0]):
             if multiparams:
                 try:
-                    print(multiparams)
-                    args = multiparams[0]
-                    print(args)
-                    multiparams = multiparams[1:]
-                    print(multiparams)
-                    object = object % _escape_args(args)
-                    print(object)
+                    object = object % _escape_args(multiparams)
+                    multiparams = multiparams[1:] if len(multiparams) > 1 else ()
                 except Exception as e:
-                    print(e)
                     pass
             return self._execute_text(object, multiparams, params)
         try:
