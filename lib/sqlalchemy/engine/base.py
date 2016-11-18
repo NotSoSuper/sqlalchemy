@@ -936,10 +936,13 @@ class Connection(Connectable):
          DBAPI-agnostic way, use the :func:`~.expression.text` construct.
 
         """
+        print(type(object))
+        print(multiparams)
         if isinstance(object, util.string_types[0]):
             if multiparams:
                 try:
                     object = object % _escape_args(multiparams)
+                    print(object)
                     multiparams = multiparams[1:] if len(multiparams) > 1 else ()
                 except Exception as e:
                     pass
